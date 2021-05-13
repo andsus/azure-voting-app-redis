@@ -23,6 +23,7 @@ pipeline {
          steps {
             sh """
                docker-compose up -d
+               chmod a+x ./scripts/test_container.sh
                ./scripts/test_container.sh
             """
          }
