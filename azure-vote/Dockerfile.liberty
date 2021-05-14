@@ -1,0 +1,3 @@
+FROM docker.io/library/open-liberty:webProfile8
+
+RUN apt-get update -q && apt-get install nano
