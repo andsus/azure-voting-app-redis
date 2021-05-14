@@ -51,7 +51,7 @@ pipeline {
          }
       }
       
-      /*
+      
       stage('Push Container') {
          steps {
             echo "Workspace is $WORKSPACE"
@@ -65,16 +65,28 @@ pipeline {
             }
          }
       }
-      */
-   stage('Run Anchore') {
-      steps {
-	      sh(script: """
-		      echo "andsus/jenkins-course" > anchore_images
-	         """)
-	      anchore bailOnFail: false, bailOnPluginFail: false, name: 'anchore_images'
-      }
-   }
       
+
+     stage('Container Scanning') {
+         parallel {
+			stage('Run Anchore') {
+			   steps {
+				  sh(script: """
+					 echo "andsus/jenkins-course" > anchore_images
+				  """)
+				  anchore bailOnFail: false, bailOnPluginFail: false, name: 'anchore_images'
+			   }
+			}
+            stage('Run Trivy') {
+               steps {
+                  sleep(time: 30, unit: 'SECONDS')
+                  // pwsh(script: """
+                  // C:\\Windows\\System32\\wsl.exe -- sudo trivy blackdentech/jenkins-course
+                  // """)
+               }
+            }
+         }
+    }
       
       
    }
