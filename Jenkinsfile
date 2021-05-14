@@ -57,7 +57,7 @@ pipeline {
          parallel {
             stage('Run Anchore') {
                steps {
-                  pwsh(script: """
+                  sh(script: """
                      Write-Output "blackdentech/jenkins-course" > anchore_images
                   """)
                   anchore bailOnFail: false, bailOnPluginFail: false, name: 'anchore_images'
