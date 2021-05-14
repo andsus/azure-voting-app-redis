@@ -51,7 +51,7 @@ pipeline {
          }
       }
       
-      
+      /*
       stage('Push Container') {
          steps {
             echo "Workspace is $WORKSPACE"
@@ -65,7 +65,15 @@ pipeline {
             }
          }
       }
-      
+      */
+   stage('Run Anchore') {
+      steps {
+	      sh(script: """
+		      echo "andsus/jenkins-course" > anchore_images
+	         """)
+	      anchore bailOnFail: false, bailOnPluginFail: false, name: 'anchore_images'
+      }
+   }
       
       
       
